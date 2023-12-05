@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  mon_drupal:
+    build: .
+    image: drupal:8-apache
+    ports:
+      - '8080:80'
+    volumes:
+      - /var/www/html/modules
+      - /var/www/html/profiles
+      - /var/www/html/themes
+      - /var/www/html/sites
+
+    restart: always
+
+  postgresql:
+    image: postgres:10
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: isthere
+      POSTGRES_PASSWORD: something
+    volumes:
+      - drupal-data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  drupal-data:
